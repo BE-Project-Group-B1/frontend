@@ -11,11 +11,16 @@ export default function Recorder() {
             data.append('file', audioBlob, 'file')
             fetch(`http://localhost:5000/transcript`, {
                 method: "POST",
-                body: data
+                body: data,
+                mode: 'cors'
             })
             .then(response => response.json())
             .then(res => { 
-                setTitleText(res)
+                setTitleText( <div className={styles.description}>
+                    {`Summary:${res[0]}` }<br></br><br></br>
+                    {' '}
+                    {`Transcript:${res[1]}`}
+            </div>)
             })
             .catch(err => console.log(err));
 
@@ -55,7 +60,6 @@ export default function Recorder() {
         <div className={styles.voicesection}>
         <button onClick={handleRecordClick} style={{ backgroundColor: buttonColor }}>{buttonText}</button>
     </div>
-    <div className={styles.description}>
-        {titleText}
-</div></div>)
+   {titleText}
+   </div>)
 }
